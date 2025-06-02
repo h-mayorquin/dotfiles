@@ -1,34 +1,19 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+add_newline = false
 
 format = """
-[](color_orange)\
-$os\
-$username\
-$shell\
-$memory_usage\
-$time\
-[ ](fg:color_orange)\
+[](color_orange)$os$username$shell$memory_usage$time[](fg:color_orange)\
 (
-[](color_aqua)\
-$git_branch\
-$git_status\
-[](fg:color_aqua bg:color_blue)\
-$c\
-$rust\
-$golang\
-$nodejs\
-$python\
-[](fg:color_blue bg:color_green)\
-$conda\
-[](fg:color_green bg:color_green)\
+[](color_aqua)$git_branch$git_status[](fg:color_aqua bg:color_blue)\
+$c$rust$golang$nodejs$python$conda\
+[](fg:color_blue bg:color_bg1)\
 $docker_context\
 [ ](fg:color_bg1)\
 )
-[](color_yellow)\
-$directory\
-[ ](fg:color_yellow)\
-$line_break$character
+[](color_yellow)$directory[ ](fg:color_yellow)\
+$line_break\
+$character
 """
 
 palette = 'gruvbox_dark'
@@ -152,9 +137,9 @@ style = "bg:color_bg3"
 format = '[[ $symbol( $context) ](fg:color_fg0 bg:color_bg3)]($style)'
 
 [conda]
-symbol = "󱔎"
-style = "bg:color_green"
-format = '[[$symbol( $environment) ](fg:color_fg0 bg:color_green)]($style)'
+symbol = "🅒"
+style = "bg:color_blue"
+format = '[[$symbol:($environment) ](fg:color_fg0 bg:color_blue)]($style)'
 
 
 [line_break]

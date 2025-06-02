@@ -17,9 +17,6 @@ function pbcopyfull
     printf "Command: %s\n%s\n" "$cmd" "$output" | xsel --clipboard --input
 end
 
-starship init fish | source
-zoxide init fish | source
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f /home/heberto/miniconda3/bin/conda
@@ -33,3 +30,23 @@ else
 end
 # <<< conda initialize <<<
 
+starship init fish | source
+zoxide init fish | source
+
+# Load fzf bindings
+fzf --fish | source
+
+# Ensure atuin is initialized
+atuin init fish | source
+
+# Bind Ctrl+G to fzf history search
+bind \cg fzf-history-widget
+if bind -M insert > /dev/null 2>&1
+    bind -M insert \cg fzf-history-widget
+end
+
+# Bind Ctrl+Alt+R to search Atuin history with fzf
+bind \e\cr 'atuin search --cmd-only | fzf --no-sort --exact | read -l result; and commandline -r $result'
+if bind -M insert > /dev/null 2>&1
+    bind -M insert \e\cr 'atuin search --cmd-only | fzf --no-sort --exact | read -l result; and commandline -r $result'
+end

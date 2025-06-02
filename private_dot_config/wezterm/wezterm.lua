@@ -19,8 +19,9 @@ local config = {
     fade_in_duration_ms = 75,
     fade_out_duration_ms = 75,
     target = "CursorColor",
+  },
+  warn_about_missing_glyphs = false,
 
-  }
 }
 
 -- Theme options (uncomment the one you want to use)

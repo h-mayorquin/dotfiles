@@ -168,3 +168,14 @@ eval "$(zoxide init bash)"
 source <(fx --comp bash)
 
 eval "$(starship init bash)"
+
+. "$HOME/.atuin/bin/env"
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
+
+# Bind Ctrl+G to fzf history search (same as default Ctrl+R behavior from fzf)
+bind -x '"\C-g": __fzf_history__'
+
+# Bind Ctrl+Alt+R to search Atuin history with fzf
+bind -x '"\e\C-r": atuin search --cmd-only | fzf --no-sort --exact'
+
