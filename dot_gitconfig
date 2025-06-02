@@ -1,0 +1,52 @@
+[user]
+	email = h.mayorquin@gmail.com
+	name = Heberto Mayorquin
+[core]
+	editor = micro
+	pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[column]
+#	ui = auto  # Uses columns to display branches for example
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+
+[branch]
+	sort = -committerdate
+
+[merge]
+    conflictstyle = zdiff3
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[tag]
+	sort=-creatordate
+	
+[push]
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+	
+[fetch]
+    prune     = true   # remove deleted remote branches
+#    pruneTags = true   # remove deleted tags
+    all       = true   # fetch from all remotes
+
+[credential]
+	credentialStore = cache
+[filter "annex"]
+	process = git-annex filter-process
+[credential "https://gin.g-node.org"]
+	provider = generic
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
