@@ -176,7 +176,7 @@ eval "$(starship init bash)"
 
 . "$HOME/.atuin/bin/env"
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+eval "$(atuin init bash --disable-up-arrow))"
 
 # Bind Ctrl+G to fzf history search (same as default Ctrl+R behavior from fzf)
 bind -x '"\C-g": __fzf_history__'

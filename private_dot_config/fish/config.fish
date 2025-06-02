@@ -48,7 +48,7 @@ fzf --fish | source
 
 # Initialize Atuin for enhanced shell history
 # This sets up Ctrl+R for Atuin's native interface
-atuin init fish | source
+atuin init fish --disable-up-arrow| source
 
 # === CUSTOM KEY BINDINGS ===
 # These must come AFTER tool initialization to override defaults
