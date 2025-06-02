@@ -14,10 +14,15 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+# Calls history -a every time the prompt is shown, it appends the last command to the history file
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=50000        # Commands in memory  
+HISTFILESIZE=100000   # Commands in history file
+# Ignore common commands to save space
+HISTIGNORE="ls:cd:pwd:exit:clear:history"
+# Add timestamps
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -178,4 +183,5 @@ bind -x '"\C-g": __fzf_history__'
 
 # Bind Ctrl+Alt+R to search Atuin history with fzf
 bind -x '"\e\C-r": atuin search --cmd-only | fzf --no-sort --exact'
-
+# Bind Ctrl+Alt+R to enhanced Atuin history with timestamps via fzf
+bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}" | fzf --read0 --delimiter="|" --no-sort | sed "s/^[^|]*| //"); [[ -n "$selected" ]] && READLINE_LINE="$selected" && READLINE_POINT=${#READLINE_LINE}'
