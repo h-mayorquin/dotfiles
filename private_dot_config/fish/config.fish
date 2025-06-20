@@ -2,6 +2,20 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+# Disable the fish greeting message
+set fish_greeting
+
+## Abbreviations and aliases
+# Now, .. transforms to cd ../, while ... turns into cd ../../ and .... expands to cd ../../../.
+function multicd
+    echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)
+end
+abbr --add dotdot --regex '^\.\.+$' --function multicd
+
+abbr gs 'git status'
+abbr gb 'git branch'
+
+
 # Simple alias for HDFView application
 alias hdfview='/opt/hdfview/bin/HDFView'
 
@@ -13,14 +27,12 @@ function pbcopy
     sed -z 's/\n$//' | xsel --clipboard --input
 end
 
-# pbcopyfull function - copies last command AND its output
-function pbcopyfull
-    # Get the last command from history
+# Copy the last command and its output to the clipboard
+function copyrun
+    history save
     set cmd (history --max=1)
-    # Read all input (the command output)
-    set output (cat)
-    # Format and copy both command and output to clipboard
-    printf "Command: %s\n%s\n" "$cmd" "$output" | xsel --clipboard --input
+    set output (eval $cmd)
+    printf "Command: %s\nOutput:\n%s\n" "$cmd" "$output" | pbcopy
 end
 
 # >>> conda initialize >>>
@@ -65,3 +77,6 @@ bind \e\cr 'atuin history list --print0 -f "{time} | {command}" | fzf --read0 --
 if bind -M insert > /dev/null 2>&1
     bind -M insert \e\cr 'atuin history list --print0 -f "{time} | {command}" | fzf --read0 --delimiter="|" --no-sort | sed "s/^[^|]*| //" | read -l result; and commandline -r $result'
 end
+
+# Set BAT theme for syntax highlighting
+set -x BAT_THEME "Solarized (light)"

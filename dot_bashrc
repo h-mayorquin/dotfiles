@@ -157,6 +157,13 @@ pbcopyfull() {
     printf "Command: %s\n%s\n" "$cmd" "$output" | xsel --clipboard --input
 }
 
+# Copy the last command and its output to the clipboard
+copyrun() {
+    cmd="$(fc -ln -1 | sed 's/^[[:space:]]*//')"
+    output="$(eval "$cmd")"
+    printf "Command: %s\nOutput:\n%s\n" "$cmd" "$output" | pbcopy
+}
+
 # Go
 export GOPATH=${HOME}/go
 export PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
@@ -172,7 +179,10 @@ export BAT_THEME="Solarized (light)"
 eval "$(zoxide init bash)"
 source <(fx --comp bash)
 
-eval "$(starship init bash)"
+# Only load Starship if not in VSCode terminal
+if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+    eval "$(starship init bash)"  # or zsh
+fi
 
 . "$HOME/.atuin/bin/env"
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh

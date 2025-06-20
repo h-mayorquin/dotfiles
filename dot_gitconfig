@@ -9,7 +9,7 @@
     diffFilter = delta --color-only
 
 [column]
-#	ui = auto  # Uses columns to display branches for example
+	ui = auto  # Uses columns to display branches for example
 
 [delta]
     navigate = true  # use n and N to move between diff sections
@@ -34,7 +34,7 @@
 	followTags = true
 	
 [fetch]
-    prune     = true   # remove deleted remote branches
+#    prune     = true   # remove deleted remote branches
 #    pruneTags = true   # remove deleted tags
     all       = true   # fetch from all remotes
 
