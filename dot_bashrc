@@ -142,7 +142,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-eval "$(github-copilot-cli alias -- "$0")"
 
 # Add hdfview alias
 alias hdfview='/opt/hdfview/bin/HDFView'
@@ -176,7 +175,6 @@ export BAT_THEME="Solarized (light)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-eval "$(zoxide init bash)"
 source <(fx --comp bash)
 
 # Only load Starship if not in VSCode terminal
@@ -195,3 +193,7 @@ bind -x '"\C-g": __fzf_history__'
 bind -x '"\e\C-r": atuin search --cmd-only | fzf --no-sort --exact'
 # Bind Ctrl+Alt+R to enhanced Atuin history with timestamps via fzf
 bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}" | fzf --read0 --delimiter="|" --no-sort | sed "s/^[^|]*| //"); [[ -n "$selected" ]] && READLINE_LINE="$selected" && READLINE_POINT=${#READLINE_LINE}'
+
+eval "$(zoxide init bash)"
+eval "$(gh copilot alias -- bash)"
+eval "$(github-copilot-cli alias -- "$0")"
