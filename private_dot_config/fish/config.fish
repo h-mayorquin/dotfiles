@@ -186,19 +186,16 @@ set -x BAT_THEME 'Solarized (light)'   # Syntax-highlighting theme for bat
 
 
 ##############################################################################
-# 11.  NODE VERSION MANAGER (NVM)
-#    • Handles either the fish-native plugin (`nvm.fish`) **or**
-#      the classic bash/zsh install found in:
-#        –  ~/.nvm                 (curl | bash)
-#        –  /opt/homebrew/opt/nvm  (Apple-silicon Homebrew)
-#        –  /usr/local/opt/nvm     (Intel macOS Homebrew)
-#    • Cross-platform and idempotent; falls back with a warning.
+# 11.  NODE VERSION MANAGER (NVM)  ── silent if absent ───────────────────────
+#    • Works with either the fish-native plugin (`nvm.fish`) **or**
+#      the classic bash/zsh install.
+#    • No warning is issued when NVM isn’t present.
 ##############################################################################
 if type -q nvm
-    # Native fish plugin is already on PATH; ensure default version active.
+    # fish-native plugin: just activate the default Node
     nvm use default --silent >/dev/null 2>&1
 else
-    # Classic NVM (bash/zsh flavour).
+    # Classic NVM locations
     set -l NVM_DIR $HOME/.nvm
     if test -d /opt/homebrew/opt/nvm
         set NVM_DIR /opt/homebrew/opt/nvm
@@ -211,11 +208,9 @@ else
         if type -q bass
             bass source $NVM_DIR/nvm.sh --no-use
         else
-            # Fallback: source via a subshell and import its env changes.
             bash -c "source $NVM_DIR/nvm.sh && nvm use default --silent" | source
         end
-    else
-        warn_missing nvm
     end
+    # If neither plugin nor nvm.sh is found, stay silent.
 end
 
