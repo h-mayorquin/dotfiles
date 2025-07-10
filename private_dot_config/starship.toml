@@ -3,11 +3,12 @@
 add_newline = false
 
 format = """
-[](color_orange)$os$username$shell$memory_usage$time[](fg:color_orange)\
+[](fg:color_bg3)$os$username$shell$memory_usage$time[](fg:color_bg3)\
 (
-[](color_aqua)$git_branch$git_commit$git_state$git_metrics[](fg:color_aqua bg:color_blue)\
-$c$rust$golang$nodejs$python$conda\
-[](fg:color_blue bg:color_bg1)\
+[](fg:color_red)$git_branch$git_commit$git_state$git_metrics[](fg:color_red)\
+)(
+[](color_blue)$c$rust$golang$nodejs$python$conda[](fg:color_blue)\
+)(
 $docker_context\
 [ ](fg:color_bg1)\
 )
@@ -48,7 +49,7 @@ color_purple = '#6c71c4'    # violet: miscellaneous emphasis
 
 [os]
 disabled = false
-style = "bg:color_orange fg:color_fg0"
+style = "bg:color_bg3 fg:color_fg0"
 
 [os.symbols]
 Windows = "󰍲"
@@ -75,14 +76,14 @@ Pop = ""
 
 [username]
 show_always = true
-style_user = "bg:color_orange fg:color_fg0"
-style_root = "bg:color_orange fg:color_fg0"
+style_user = "bg:color_bg3 fg:color_fg0"
+style_root = "bg:color_bg3 fg:color_fg0"
 format = '[ $user]($style)'
 
 [shell]
 disabled = false
-format = '[[ $indicator ](fg:color_fg0 bg:color_orange)]($style)'
-style = 'bg:color_orange'
+format = '[[ $indicator ](fg:color_fg0 bg:color_bg3)]($style)'
+style = 'bg:color_bg3'
 fish_indicator = "󰈺 shell" 
 bash_indicator = " shell"
 zsh_indicator = "zsh shell" 
@@ -92,15 +93,15 @@ unknown_indicator = "? shell"
 [memory_usage]
 disabled = false
 threshold = -1
-format = '[[${ram} (${ram_pct}) ](fg:color_fg0 bg:color_orange)]($style)'
-symbol = '󰍛 '
-style = 'bg:color_orange'
+format = '[[$symbol ${ram} (${ram_pct}) ](fg:color_fg0 bg:color_bg3)]($style)'
+symbol = '󰍛'
+style = 'bg:color_bg3'
 
 [time]
 disabled = false
 time_format = " %m/%d   %R"
-style = "bg:color_bg1"
-format = '[[$time ](fg:color_fg0 bg:color_orange)]($style)'
+style = "bg:color_bg3"
+format = '[[$time ](fg:color_fg0 bg:color_bg3)]($style)'
 
 
 [directory]
@@ -119,20 +120,20 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:color_aqua"
-format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+style = "bg:color_red"
+format = '[[ $symbol $branch ](fg:color_fg0 bg:color_red)]($style)'
 
 [git_commit]
 only_detached = true
 commit_hash_length = 4
 tag_disabled = false
 tag_symbol = " "  # nf-oct-git-compare (consistent with nerd font)
-style = "bg:color_aqua"
-format = '[[ ($hash$tag) ](fg:color_fg0 bg:color_aqua)]($style)'
+style = "bg:color_red"
+format = '[[ ($hash$tag) ](fg:color_fg0 bg:color_red)]($style)'
 
 [git_state]
-style = "bg:color_aqua"
-format = '[[ ($state $progress_current/$progress_total) ](fg:color_fg0 bg:color_aqua)]($style)'
+style = "bg:color_red"
+format = '[[ ($state $progress_current/$progress_total) ](fg:color_fg0 bg:color_red)]($style)'
 rebase = " REBASE"
 merge = " MERGE"
 revert = " REVERT"
@@ -144,7 +145,7 @@ am_or_rebase = " AM/REBASE"
 [git_metrics]
 disabled = false
 only_nonzero_diffs = true
-format = '[[ $added  $deleted ](fg:color_fg0 bg:color_aqua)]($style)'
+format = '[[ $added  $deleted ](fg:color_fg0 bg:color_red)]($style)'
 
 [nodejs]
 symbol = ""

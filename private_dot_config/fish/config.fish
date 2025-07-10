@@ -85,32 +85,25 @@ end
 ##############################################################################
 # 6.  CROSS-PLATFORM CLIPBOARD (`pbcopy` on mac, `xsel`/`xclip` on Linux)
 ##############################################################################
-function pbcopy
-    switch $OS
-    case Darwin
-        if type -q pbcopy
-            command pbcopy
-        else
-            warn_missing pbcopy
-        end
-    case Linux
-        if type -q xsel
-            xsel --clipboard --input
-        else if type -q xclip
-            xclip -selection clipboard
-        else
-            warn_missing xsel/xclip
-        end
+if test $OS = Linux
+    # Complex aliases need to be functions in Fish
+    function pbcopy
+        # Remove trailing newline and copy to clipboard
+        # sed -z: treats input as null-terminated (handles multiline)
+        # 's/\n$//': removes newline at end
+        sed -z 's/\n$//' | xsel --clipboard --input
+    end
+
+    # Copy the last command and its output to the clipboard
+    function copyrun
+        history save
+        set cmd (history --max=1)
+        set output (eval $cmd)
+        printf "Command: %s\nOutput:\n%s\n" "$cmd" "$output" | pbcopy
     end
 end
 
-# copyrun: copy last command + output to clipboard
-function copyrun
-    history save
-    set cmd (history --max 1)
-    set output (eval $cmd)
-    printf "Command: %s\nOutput:\n%s\n" "$cmd" "$output" | pbcopy
-end
+
 
 
 ##############################################################################
@@ -209,6 +202,11 @@ else
             bass source $NVM_DIR/nvm.sh --no-use
         else
             bash -c "source $NVM_DIR/nvm.sh && nvm use default --silent" | source
+        end
+        # Add current node version's bin directory to PATH
+        set -l node_version (bash -c "source $NVM_DIR/nvm.sh && nvm current" 2>/dev/null)
+        if test -n "$node_version"; and test -d $NVM_DIR/versions/node/$node_version/bin
+            set -gx PATH $NVM_DIR/versions/node/$node_version/bin $PATH
         end
     end
     # If neither plugin nor nvm.sh is found, stay silent.

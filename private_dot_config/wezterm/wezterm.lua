@@ -15,7 +15,7 @@ config.font              = wezterm.font('FiraCode Nerd Font') -- Nerd-Font for g
 config.font_size         = 12.0
 config.harfbuzz_features = { 'calt=1', 'liga=1', 'clig=1', 'dlig=1' } -- enable ligatures
 config.line_height       = 1.0        -- Adjust if text looks cramped/tall
--- config.text_min_contrast_ratio = 1.0 -- only on unreleased version, WCAG 2.0 level AA for readability
+config.text_min_contrast_ratio = 3.5 -- only on unreleased version, WCAG 2.0 level AA for readability
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- PERFORMANCE
