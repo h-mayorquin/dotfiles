@@ -177,6 +177,10 @@ export BAT_THEME="Solarized (light)"
 
 source <(fx --comp bash)
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 # Only load Starship if not in VSCode terminal
 if [[ "$TERM_PROGRAM" != "vscode" ]]; then
     eval "$(starship init bash)"  # or zsh
@@ -196,4 +200,5 @@ bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}
 
 eval "$(zoxide init bash)"
 eval "$(gh copilot alias -- bash)"
-eval "$(github-copilot-cli alias -- "$0")"
+
+
