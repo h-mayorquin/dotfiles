@@ -28,7 +28,7 @@ set -l OS (uname)            # "Darwin" or "Linux"
 ##############################################################################
 function warn_missing --argument tool
     set_color --bold red
-    echo "⚠  '$tool' not found – skipping its initialisation." >&2
+    echo "⚠  '$tool' not found - skipping its initialisation." >&2
     set_color normal
 end
 
@@ -163,7 +163,7 @@ end
 
 # Ctrl-Alt-R → Atuin history via fzf with timestamps
 set -l fzf_atuin 'atuin history list --print0 -f "{time} | {command}" | \
-  fzf --read0 --delimiter="|" --no-sort | \
+    fzf --read0 --delimiter="|" --no-sort | \
   sed "s/^[^|]*| //" | read -l result; and commandline -r $result'
 
 bind \e\cr $fzf_atuin
@@ -179,36 +179,92 @@ set -x BAT_THEME 'Solarized (light)'   # Syntax-highlighting theme for bat
 
 
 ##############################################################################
-# 11.  NODE VERSION MANAGER (NVM)  ── silent if absent ───────────────────────
-#    • Works with either the fish-native plugin (`nvm.fish`) **or**
-#      the classic bash/zsh install.
-#    • No warning is issued when NVM isn’t present.
+# 11.  NODE VERSION MANAGER (NVM)  ── classic install via wrapper  ───────────
+#
+# Why this approach?
+#  1) We avoid the fish-native plugin (`nvm.fish`) because it uses a different
+#     install root (~/.local/share/nvm) and doesn’t share Node versions or
+#     global npm packages with the classic bash/zsh NVM (~/.nvm or Homebrew).
+#
+#  2) We avoid `bass`, because although it can source bash scripts, it cannot
+#     cleanly import bash *functions* into fish. NVM is defined as a bash
+#     function, so bass leaves us without a working `nvm` in fish.
+#
+#  3) Instead, we wrap `nvm` in a tiny fish function that spawns bash,
+#     sources nvm.sh, and forwards arguments. This way:
+#       • You can run `nvm ls`, `nvm install`, `nvm use`, etc. inside fish.
+#       • Node.js, npm, and global binaries (eslint, claude, typescript, etc.)
+#         remain available everywhere because PATH is fixed up.
+#       • Works on both Ubuntu (~/.nvm) and macOS Apple Silicon (/opt/homebrew/opt/nvm).
 ##############################################################################
-if type -q nvm
-    # fish-native plugin: just activate the default Node
-    nvm use default --silent >/dev/null 2>&1
-else
-    # Classic NVM locations
-    set -l NVM_DIR $HOME/.nvm
-    if test -d /opt/homebrew/opt/nvm
-        set NVM_DIR /opt/homebrew/opt/nvm
-    else if test -d /usr/local/opt/nvm
-        set NVM_DIR /usr/local/opt/nvm
-    end
-    set -gx NVM_DIR $NVM_DIR
 
-    if test -f $NVM_DIR/nvm.sh
-        if type -q bass
-            bass source $NVM_DIR/nvm.sh --no-use
-        else
-            bash -c "source $NVM_DIR/nvm.sh && nvm use default --silent" | source
-        end
-        # Add current node version's bin directory to PATH
-        set -l node_version (bash -c "source $NVM_DIR/nvm.sh && nvm current" 2>/dev/null)
-        if test -n "$node_version"; and test -d $NVM_DIR/versions/node/$node_version/bin
-            set -gx PATH $NVM_DIR/versions/node/$node_version/bin $PATH
+# 1. Detect NVM install location
+# -------------------------------------------------------------------------
+# Standard locations:
+#   • Ubuntu/Linux: ~/.nvm (classic curl-based install)
+#   • macOS Apple Silicon: /opt/homebrew/opt/nvm (Homebrew install)
+set -l NVM_DIR $HOME/.nvm
+if test -d /opt/homebrew/opt/nvm
+    set NVM_DIR /opt/homebrew/opt/nvm
+end
+set -gx NVM_DIR $NVM_DIR
+
+# 2. Load default Node version into PATH (if nvm.sh exists)
+# -------------------------------------------------------------------------
+# We don’t try to import the nvm function here (fish can’t read bash functions).
+# Instead we:
+#   • Start a bash subshell
+#   • Source nvm.sh
+#   • Run `nvm use default` to activate the default Node version silently
+if test -f $NVM_DIR/nvm.sh
+    bash -c "source $NVM_DIR/nvm.sh && nvm use default --silent" | source
+
+    # 3. Ensure the active Node’s bin directory is in PATH
+    # ---------------------------------------------------------------------
+    # Why: nvm.sh updates PATH in bash/zsh, but fish does not inherit that.
+    # Without this, global npm binaries (e.g. eslint, tsc, claude) wouldn’t
+    # be found in fish.
+    #
+    # Steps:
+    #   1. Ask bash+nvm which version is active.
+    #   2. If result is "system", skip (no nvm-managed Node in use).
+    #   3. If valid, prepend its bin/ directory to PATH in fish.
+    set -l node_version (bash -c "source $NVM_DIR/nvm.sh && nvm current" 2>/dev/null)
+    if test -n "$node_version"; and test "$node_version" != "system"
+        set -l node_bin "$NVM_DIR/versions/node/$node_version/bin"
+        if test -d $node_bin
+            set -gx PATH $node_bin $PATH
         end
     end
-    # If neither plugin nor nvm.sh is found, stay silent.
+
+    # 4. Define a fish wrapper for the nvm function
+    # ---------------------------------------------------------------------
+    # Why: nvm is a bash function, not a binary, so fish cannot call it directly.
+    # This wrapper:
+    #   • Spawns bash
+    #   • Sources nvm.sh
+    #   • Runs nvm with the provided arguments
+    #
+    # Example usage in fish:
+    #   nvm ls
+    #   nvm install --lts
+    #   nvm use 22
+    function nvm
+        bash -ic "source $NVM_DIR/nvm.sh && nvm $argv"
+    end
+else
+    # 5. Warn if NVM is not installed
+    # ---------------------------------------------------------------------
+    set_color --bold red
+    echo "⚠ NVM not found at $NVM_DIR — skipping Node.js setup." >&2
+    set_color normal
 end
+
+
+
+
+
+
+
+
 
