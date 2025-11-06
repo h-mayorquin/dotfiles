@@ -201,4 +201,6 @@ bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}
 eval "$(zoxide init bash)"
 eval "$(gh copilot alias -- bash)"
 
-
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

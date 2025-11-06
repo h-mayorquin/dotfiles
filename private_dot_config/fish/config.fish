@@ -261,10 +261,33 @@ else
 end
 
 
+##############################################################################
+# 12.  GO PROGRAMMING LANGUAGE SETUP
+##############################################################################
+# Purpose:
+#  • Ensure the Go toolchain is available in all interactive sessions.
+#  • Make binaries installed via `go install` accessible.
+#
+# Rationale:
+#  • `set -x GOPATH $HOME/go`
+#     – Exports GOPATH for each session so Go knows where to find and install packages.
+#     – Defined in config.fish ensures consistency and avoids universal variable pitfalls.
+#     :contentReference[oaicite:1]{index=1}
+#
+#  • `fish_add_path /usr/local/go/bin`
+#     – Adds Go’s core tools (like `go`, `gofmt`) to your PATH.
+#     – Idempotent, safe in config, avoids duplicate entries.
+#     :contentReference[oaicite:2]{index=2}
+#
+#  • `fish_add_path $GOPATH/bin`
+#     – Includes binaries from `go install` in your PATH.
+#     – Also idempotent and config-safe.
+##############################################################################
+
+set -x GOPATH $HOME/go            # Export GOPATH so Go knows your workspace directory every session.
+fish_add_path /usr/local/go/bin   # Make standard Go commands (go, gofmt, etc.) available in PATH.
+fish_add_path $GOPATH/bin         # Include executables installed via `go install` in your PATH.
 
 
-
-
-
-
-
+set -x BUN_INSTALL $HOME/.bun
+fish_add_path $BUN_INSTALL/bin

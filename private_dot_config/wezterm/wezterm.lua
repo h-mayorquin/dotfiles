@@ -101,4 +101,9 @@ end
 
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- This is for claude-code, so you can skip lines with Enter + Shift
+config.keys = {
+	{key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}}
+}
+
 return config
