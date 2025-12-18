@@ -175,20 +175,21 @@ export BAT_THEME="Solarized (light)"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source <(fx --comp bash)
+command -v fx &>/dev/null && source <(fx --comp bash)
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Only load Starship if not in VSCode terminal
-if [[ "$TERM_PROGRAM" != "vscode" ]]; then
-    eval "$(starship init bash)"  # or zsh
+# Starship prompt (if installed and not in VSCode terminal)
+if [[ "$TERM_PROGRAM" != "vscode" ]] && command -v starship &>/dev/null; then
+    eval "$(starship init bash)"
 fi
 
-. "$HOME/.atuin/bin/env"
+# Atuin shell history (if installed)
+[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash --disable-up-arrow))"
+command -v atuin &>/dev/null && eval "$(atuin init bash --disable-up-arrow)"
 
 # Bind Ctrl+G to fzf history search (same as default Ctrl+R behavior from fzf)
 bind -x '"\C-g": __fzf_history__'
@@ -198,8 +199,11 @@ bind -x '"\e\C-r": atuin search --cmd-only | fzf --no-sort --exact'
 # Bind Ctrl+Alt+R to enhanced Atuin history with timestamps via fzf
 bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}" | fzf --read0 --delimiter="|" --no-sort | sed "s/^[^|]*| //"); [[ -n "$selected" ]] && READLINE_LINE="$selected" && READLINE_POINT=${#READLINE_LINE}'
 
-eval "$(zoxide init bash)"
-eval "$(gh copilot alias -- bash)"
+# Zoxide directory jumper (if installed)
+command -v zoxide &>/dev/null && eval "$(zoxide init bash)"
+
+# GitHub Copilot CLI (if installed)
+command -v gh &>/dev/null && eval "$(gh copilot alias -- bash)"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
