@@ -1,0 +1,33 @@
+{
+  "title": "Custom Modifier Keys",
+  "rules": [
+    {
+      "description": "Fn to Command, Right Command to Fn",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": { "key_code": "fn" },
+          "to": [{ "key_code": "left_command" }]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "right_command" },
+          "to": [{ "key_code": "fn" }]
+        }
+      ]
+    },
+    {
+      "description": "Caps Lock to Control",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": { "optional": ["any"] }
+          },
+          "to": [{ "key_code": "left_control" }]
+        }
+      ]
+    }
+  ]
+}

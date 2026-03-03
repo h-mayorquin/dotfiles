@@ -59,7 +59,7 @@ end
 #    • Harmless to add universally — fish_user_paths avoids duplicates.
 ##############################################################################
 if test -d $HOME/.local/bin
-    set -Ua fish_user_paths $HOME/.local/bin
+    fish_add_path $HOME/.local/bin
 end
 
 
@@ -291,3 +291,10 @@ fish_add_path $GOPATH/bin         # Include executables installed via `go instal
 
 set -x BUN_INSTALL $HOME/.bun
 fish_add_path $BUN_INSTALL/bin
+
+
+##############################################################################
+# 13.  RUST/CARGO SETUP
+##############################################################################
+# Cargo installs binaries to ~/.cargo/bin (e.g., lsd, ripgrep, fd, etc.)
+fish_add_path $HOME/.cargo/bin
