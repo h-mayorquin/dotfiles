@@ -199,7 +199,6 @@ bind -x '"\e\C-r": atuin search --cmd-only | fzf --no-sort --exact'
 bind -x '"\e\C-r": selected=$(atuin history list --print0 -f "{time} | {command}" | fzf --read0 --delimiter="|" --no-sort | sed "s/^[^|]*| //"); [[ -n "$selected" ]] && READLINE_LINE="$selected" && READLINE_POINT=${#READLINE_LINE}'
 
 eval "$(zoxide init bash)"
-eval "$(gh copilot alias -- bash)"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
