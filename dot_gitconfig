@@ -24,6 +24,10 @@
 	colorMoved = plain
 	mnemonicPrefix = true
 	renames = true
+
+[alias]
+	difft = -c diff.external=difft diff
+	logt  = -c diff.external=difft log -p
 [tag]
 	sort=-creatordate
 	
