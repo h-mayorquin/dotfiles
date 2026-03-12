@@ -8,7 +8,14 @@ Avoid using em dashes (--) in writing. Use commas, periods, or parentheses inste
 
 ## PR and Issue Descriptions
 
-When writing PR or issue descriptions, write them to a local file in the current directory. Keep the content concise with only a single header for the PR or issue title. Do not additional headers or sections unless explicitly requested by the user.
+When writing PR or issue descriptions:
+- Write them to a local file in the current directory.
+- Keep the content concise with only a single header for the PR or issue title.
+- Do not add additional headers or sections unless explicitly requested by the user.
+- Only present final design decisions. Unless explicitly asked to, do not include implementation discussions, rejected alternatives, or the history of how we arrived at the solution. Just state what was decided and why.
+- Write design reasoning in prose paragraphs, not change lists. The diff already shows what changed, so the description should explain the "why."
+- Use first-person voice for scoping decisions (e.g. "I have left out X to keep this easier to review") rather than passive "out of scope" lists.
+
 
 ## Python
 
