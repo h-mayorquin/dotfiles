@@ -1,0 +1,108 @@
+{
+    // Workbench
+    // Color theme and editor chrome preferences.
+    "workbench.colorTheme": "Solarized Light",
+    // Wrap tab titles instead of showing a scroll arrow when many tabs are open.
+    "workbench.editor.wrapTabs": true,
+    // Highlight unsaved tabs with a colored bar so they are easy to spot.
+    "workbench.editor.highlightModifiedTabs": true,
+    // Warn before opening files larger than 3 GB to avoid freezing the editor.
+    "workbench.editorLargeFileConfirmation": 3072,
+    // Default profile to open when creating a new window.
+    "window.newWindowProfile": "H",
+    // Close the window by double-clicking the title bar icon (Linux behavior).
+    "window.doubleClickIconToClose": true,
+
+    // Editor
+    // Color-code matching bracket pairs to make nesting easier to follow.
+    "editor.bracketPairColorization.enabled": true,
+    // Show inline Copilot suggestions as ghost text while typing.
+    "editor.inlineSuggest.enabled": true,
+    // Show whitespace differences in diffs — trailing space changes matter in Python.
+    "diffEditor.ignoreTrimWhitespace": false,
+
+    // Files
+    // Save automatically after a short delay so work is not lost between manual saves.
+    "files.autoSave": "afterDelay",
+    // Hide virtual environments and cache dirs from the file explorer.
+    "files.exclude": {
+        "**/.venv": true,
+        "**/venv": true,
+        "**/__pycache__": true
+    },
+
+    // Search
+    // Do not follow symlinks during search to avoid traversing mounted paths.
+    "search.followSymlinks": false,
+    // Exclude virtual environments and cache dirs from search results.
+    "search.exclude": {
+        "**/.venv": true,
+        "**/venv": true,
+        "**/__pycache__": true
+    },
+    // Do not watch venv dirs for file changes — they are large and change often during installs.
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/venv/**": true
+    },
+
+    // Git
+    // Fetch from remote automatically in the background so the branch status is always fresh.
+    "git.autofetch": true,
+    // Never auto-switch to the PR branch when opening a pull request — keep the current branch.
+    "githubPullRequests.pullBranch": "never",
+    // Show PR file list as a flat list rather than a tree.
+    "githubPullRequests.fileListLayout": "flat",
+
+    // Terminal
+    // Inherit the shell environment so tools like uv and conda are on PATH.
+    "terminal.integrated.inheritEnv": true,
+    // Do not intercept Ctrl+K as a chord prefix — let it pass through to the shell (kills line).
+    "terminal.integrated.allowChords": false,
+    // Use Git Bash as the default terminal on Windows.
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    // External terminal application on Linux and macOS.
+    "terminal.external.linuxExec": "wezterm",
+    "terminal.external.osxExec": "wezterm",
+
+    // Python
+    // Visual rulers for Python files: soft limit at 80 (gray), hard limit at 120 (red).
+    "[python]": {
+        "editor.rulers": [
+            { "column": 80, "color": "#d6d6d6" },
+            { "column": 120, "color": "#ff0000" }
+        ]
+    },
+    // Only run diagnostics on open files to reduce background CPU usage.
+    "python.analysis.diagnosticMode": "openFilesOnly",
+
+    // Previously disabled to reduce thermals and memory usage (Feb 3, 2026).
+    // Re-enabled to defaults (Mar 12, 2026) to restore full Pylance introspection.
+    // Set to false again if CPU/memory issues return.
+    "python.analysis.indexing": true,
+    "python.analysis.persistAllIndices": true,
+    "python.analysis.memory.keepLibraryAst": true,
+
+    // Notebooks
+    // Show line numbers in notebook cells.
+    "notebook.lineNumbers": "on",
+    // Allow Jupyter widgets to load scripts from CDNs.
+    "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
+    // Use numpy-style docstrings when auto-generating with the autoDocstring extension.
+    "autoDocstring.docstringFormat": "numpy",
+
+    // Copilot
+    // Enable Copilot everywhere except plaintext and markdown files.
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": true,
+        "plaintext": false,
+        "markdown": false
+    },
+
+    // Misc
+    // Suppress extension recommendation popups.
+    "extensions.ignoreRecommendations": true,
+    // Opt out of Red Hat extension telemetry.
+    "redhat.telemetry.enabled": false
+}
