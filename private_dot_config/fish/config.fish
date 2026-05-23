@@ -175,7 +175,7 @@ end
 ##############################################################################
 # 10.  MISC ENVIRONMENT
 ##############################################################################
-set -x BAT_THEME 'Solarized (light)'   # Syntax-highlighting theme for bat
+set -gx BAT_THEME 'Solarized (light)'   # Syntax-highlighting theme for bat
 
 
 ##############################################################################
@@ -284,12 +284,12 @@ end
 #     – Also idempotent and config-safe.
 ##############################################################################
 
-set -x GOPATH $HOME/go            # Export GOPATH so Go knows your workspace directory every session.
+set -gx GOPATH $HOME/go            # Export GOPATH so Go knows your workspace directory every session.
 fish_add_path /usr/local/go/bin   # Make standard Go commands (go, gofmt, etc.) available in PATH.
 fish_add_path $GOPATH/bin         # Include executables installed via `go install` in your PATH.
 
 
-set -x BUN_INSTALL $HOME/.bun
+set -gx BUN_INSTALL $HOME/.bun
 fish_add_path $BUN_INSTALL/bin
 
 
@@ -298,3 +298,9 @@ fish_add_path $BUN_INSTALL/bin
 ##############################################################################
 # Cargo installs binaries to ~/.cargo/bin (e.g., lsd, ripgrep, fd, etc.)
 fish_add_path $HOME/.cargo/bin
+
+
+##############################################################################
+# 14.  CLAUDE CODE
+##############################################################################
+set -gx CLAUDE_CODE_NO_FLICKER 1   # Flicker-free alt-screen rendering
