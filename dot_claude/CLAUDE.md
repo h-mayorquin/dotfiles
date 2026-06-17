@@ -28,6 +28,11 @@ When writing PR or issue descriptions:
 - Write design reasoning in prose paragraphs, not change lists. The diff already shows what changed, so the description should explain the "why."
 - When the user does explicitly ask for a scoping note, use first-person voice rather than passive "out of scope" lists. The same voice rule applies elsewhere in PR descriptions: e.g., "I picked uint32 because uint64 doubles per-entry memory for no real-world benefit" rather than "uint32 was picked because...".
 
+## Pull Request Diffs
+
+When preparing a pull request, minimize diff churn. Change only what the fix or feature strictly requires. Do not fold in incidental refactors, reformatting, comment deletions, variable renames, or restructuring that is not essential to the change, because each unrelated edit makes the diff harder for reviewers to read.
+
+Only modify docstrings if strictly necessary for the change. In borderline cases, where a docstring edit or a larger diff might be worth it but is not clearly required, do not just make the change. Pause and raise it with me as a separate discussion step, explaining why you think the docstring change or the larger diff is worth it, and let me decide.
 
 ## Obsidian Vault
 
